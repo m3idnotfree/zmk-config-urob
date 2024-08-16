@@ -16,17 +16,16 @@
 # $ west update
 # $ west zephyr-export
 #
----
 manifest:
   defaults:
     remote: urob
-
   remotes:
     - name: upstream
       url-base: https://github.com/zmkfirmware
     - name: urob
       url-base: https://github.com/urob
-
+    - name: caksoylar
+      url-base: https://github.com/caksoylar
   projects:
     - name: zmk-helpers
       revision: main
@@ -37,21 +36,22 @@ manifest:
     - name: zmk-tri-state
       revision: main
       path: modules/tri-state
-
-    # Add ZMK with Zephyr dependencies namespaced under /zmk. The following
-    # does not work until upstream imports Zephyr with path set to anything
-    # other than 'zephyr' to prevent it from getting added to build/Kconfig.
-
-    # - name: zmk
-    #   revision: going-modular
-    #   path: .
-    #   import:
-    #     file: app/west.yml
-    #     path-prefix: zmk
-
+    - name: zmk-rgbled-widget
+      remote: caksoylar
+      revision: main
     # As a workaround, we add ZMK without importing Zephyr and then manually
     # add Zephyr under the /zmk namespace and set a path other than 'zephyr'.
     - name: zmk
+      # Add ZMK with Zephyr dependencies namespaced under /zmk. The following
+      # does not work until upstream imports Zephyr with path set to anything
+      # other than 'zephyr' to prevent it from getting added to build/Kconfig.
+
+      # - name: zmk
+      #   revision: going-modular
+      #   path: .
+      #   import:
+      #     file: app/west.yml
+      #     path-prefix: zmk
       revision: going-modular
       west-commands: app/scripts/west-commands.yml
     - name: zephyr
@@ -80,6 +80,5 @@ manifest:
           - openthread
           - edtt
           - trusted-firmware-m
-
   self:
     path: config
